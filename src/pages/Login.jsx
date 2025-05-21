@@ -29,7 +29,11 @@ const Login = () => {
     console.log(payload);
 
     axios
-      .post("https://reqres.in/api/login", payload)
+      .post("https://reqres.in/api/login", payload, {
+        headers: {
+          "x-api-key": "reqres-free-v1",
+        },
+      })
       .then((res) => {
         console.log(res);
         setSuccess("Login successful!");

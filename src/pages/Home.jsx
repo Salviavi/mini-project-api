@@ -6,13 +6,30 @@ import "../styles/home.css";
 
 const Home = () => {
   const [users, setUsers] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+
   const navigate = useNavigate();
+
+  const handlePagePrev = () => {
+    setPage((prev) => prev - 1);
+  };
+
+  const handlePageNext = () => {
+    setPage((prev) => prev + 1);
+  };
 
   const getUsers = () => {
     axios
-      .get("https://reqres.in/api/users/")
+      .get(`https://reqres.in/api/users?page=${page}`, {
+        headers: {
+          "x-api-key": "reqres-free-v1",
+        },
+      })
+
       .then((res) => {
         setUsers(res.data.data);
+        setTotalPage(res.data.total_pages);
       })
       .catch((err) => {
         console.log(err.response);
@@ -26,7 +43,7 @@ const Home = () => {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [page]);
 
   const isLoggedIn = localStorage.getItem("access_token");
 
@@ -49,6 +66,14 @@ const Home = () => {
             </Link>
           </div>
         ))}
+      </div>
+      <div>
+        <button disabled={page <= 1} onClick={handlePagePrev}>
+          Prev
+        </button>
+        <button disabled={page >= totalPage} onClick={handlePageNext}>
+          Next
+        </button>
       </div>
     </div>
   );

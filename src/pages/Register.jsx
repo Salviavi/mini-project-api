@@ -22,14 +22,18 @@ const Register = () => {
 
   const handleRegister = () => {
     const payload = {
-      username: setEmail,
+      email: email,
       password: password,
     };
 
     console.log(payload);
 
     axios
-      .post("https://reqres.in/api/register", payload)
+      .post("https://reqres.in/api/register", payload, {
+        headers: {
+          "x-api-key": "reqres-free-v1",
+        },
+      })
       .then((res) => {
         console.log(res);
         setSuccess("Registration successful!");

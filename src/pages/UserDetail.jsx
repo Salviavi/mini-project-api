@@ -11,7 +11,11 @@ const UserDetail = () => {
   const getUser = () => {
     setLoading(true);
     axios
-      .get(`https://reqres.in/api/users/${id}`)
+      .get(`https://reqres.in/api/users/${id}`, {
+        headers: {
+          "x-api-key": "reqres-free-v1",
+        },
+      })
       .then((res) => {
         setUser(res.data.data);
         setLoading(false);
